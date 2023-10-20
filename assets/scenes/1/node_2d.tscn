@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://bsh24xrhguf2m"]
+
+[ext_resource type="Script" path="res://assets/scenes/1/world1.gd" id="1_xqd1r"]
+[ext_resource type="Script" path="res://assets/scenes/1/Player.gd" id="2_77wwq"]
+[ext_resource type="Texture2D" uid="uid://qxxvxoyosdfc" path="res://assets/sprites/bit/bit_run1.png" id="3_ggyxq"]
+[ext_resource type="Texture2D" uid="uid://vs3euykdjb7f" path="res://assets/sprites/bit/bit_jump.png" id="4_knx78"]
+[ext_resource type="Texture2D" uid="uid://c3mcb670a4i3p" path="res://assets/sprites/bit/bit_run2.png" id="5_in5cp"]
+[ext_resource type="AudioStream" uid="uid://bha6u8cyispth" path="res://assets/sounds/Jump13.wav" id="6_6agt8"]
+[ext_resource type="AudioStream" uid="uid://5x87wlarlhjp" path="res://assets/sounds/Hit_Hurt2.wav" id="7_qbret"]
+[ext_resource type="AudioStream" uid="uid://dq628gvvfyhn1" path="res://assets/sounds/music/The Inner Struggle (Tower) - Shovel Knight [OST].wav" id="8_sl5kg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7cmgu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ggyxq")
+}],
+"loop": true,
+"name": &"idol",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_knx78")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_in5cp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ggyxq")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0607u"]
+size = Vector2(15.5, 15.9)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_xqd1r")
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(40, 272)
+script = ExtResource("2_77wwq")
+
+[node name="PlayerBody" type="CharacterBody2D" parent="Player"]
+slide_on_ceiling = false
+floor_constant_speed = true
+floor_block_on_wall = false
+
+[node name="img" type="AnimatedSprite2D" parent="Player/PlayerBody"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_7cmgu")
+animation = &"jump"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Player/PlayerBody"]
+shape = SubResource("RectangleShape2D_0607u")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Player/PlayerBody"]
+stream = ExtResource("6_6agt8")
+panning_strength = 0.44
+
+[node name="Run" type="AudioStreamPlayer2D" parent="Player/PlayerBody"]
+stream = ExtResource("7_qbret")
+panning_strength = 0.44
+
+[node name="HurtBox" type="Area2D" parent="Player/PlayerBody"]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Player/PlayerBody/HurtBox"]
+shape = SubResource("RectangleShape2D_0607u")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_sl5kg")
